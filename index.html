@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Cálculo de IMC</title>
+  </head>
+
+  <body>
+    <form id="formulario">
+      Cálculo de IMC
+      <ul>
+        <label for="peso">Peso:</label>
+        <input id="peso" required step="0.01" />
+
+        <label for="estatura">Estatura:</label>
+        <input id="estatura" required step="0.01" />
+
+        <button type="button" onclick="calcular_imc()">calcular</button>
+
+        <p id="resultadoIMC"></p>
+      </ul>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Indicativo</th>
+          <th scope="col">Tu peso es...</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="colorA">
+          <th scope="row">A</th>
+          <td>Bajo Peso</td>
+        </tr>
+        <tr id="colorV">
+          <th scope="row">V</th>
+          <td colspan="2">Normal</td>
+        </tr>
+        <tr id="colorN">
+          <th scope="row">N</th>
+          <td>Sobre Peso</td>
+        </tr>
+        <tr id="colorR">
+          <th scope="row">R</th>
+          <td colspan="2">Obesidad</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script>
+      "use strict";
+      function calcular_imc() {
+        const peso = parseFloat(document.getElementById("peso").value);
+        const estatura = parseFloat(document.getElementById("estatura").value);
+
+        if (isNaN(peso) || isNaN(estatura) || peso <= 0 || estatura <= 0) {
+          alert("ERROR... valores NO válidos.");
+          return;
+        }
+
+        const resultado = peso / Math.pow(estatura, 2);
+        console.log(resultado);
+
+        document.getElementById("resultadoIMC").textContent =
+          "IMC: " + (resultado.toFixed(2) || "");
+
+        ftabla(resultado);
+      }
+
+      function ftabla(resultado) {
+        const colorA = document.getElementById("colorA");
+        const colorV = document.getElementById("colorV");
+        const colorN = document.getElementById("colorN");
+        const colorR = document.getElementById("colorR");
+
+        colorA.style.backgroundColor = "";
+        colorV.style.backgroundColor = "";
+        colorN.style.backgroundColor = "";
+        colorR.style.backgroundColor = "";
+
+        if (resultado < 18.4) {
+          colorA.style.backgroundColor = "yellow";
+        } else if (resultado >= 18.5 && resultado <= 24.9) {
+          colorV.style.backgroundColor = "green";
+        } else if (resultado >= 25 && resultado <= 29.9) {
+          colorN.style.backgroundColor = "orange";
+        } else if (resultado >= 30) {
+          colorR.style.backgroundColor = "red";
+        }
+      }
+    </script>
+  </body>
+</html>
